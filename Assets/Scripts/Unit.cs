@@ -5,28 +5,43 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    private Vector3 targetPosition;
+    public Vector3 TargetPosition { get; private set; }
+
     [SerializeField] private float moveSpeed = 4f;
     [SerializeField] private float stoppingDistance = .1f;
+
+    public float MoveSpeed
+    {
+        get => moveSpeed;
+        set => moveSpeed = value;
+    }
+
+    public float StoppingDistance
+    {
+        get => stoppingDistance;
+        set => stoppingDistance = value;
+    }
+
 
     private void Update()
     {
 
-        if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
+        if (Vector3.Distance(transform.position, TargetPosition) > StoppingDistance)
         {
-            Vector3 moveDirection = (targetPosition - transform.position).normalized;
-            transform.position += moveDirection * Time.deltaTime * moveSpeed;
+            Vector3 moveDirection = (TargetPosition - transform.position).normalized;
+            transform.position += MoveSpeed * Time.deltaTime * moveDirection;
         }
 
         if (Input.GetMouseButtonDown(0))
         {
-            Move(targetPosition);
+            Move(TargetPosition);
         }
     }
 
     private void Move(Vector3 targetPosition)
     {
-        this.targetPosition = MouseWorld.GetPosition();
+        Debug.Log("Going to " + targetPosition.ToString());
+        this.TargetPosition = MouseWorld.GetPosition();
     }
 
 }
