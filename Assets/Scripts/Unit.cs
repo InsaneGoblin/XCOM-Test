@@ -1,13 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    public Vector3 TargetPosition { get; private set; }
+    public Vector3 targetPosition;
 
+    [SerializeField] private Animator unitAnimator;
     [SerializeField] private float moveSpeed = 4f;
+    [SerializeField] private float rotateSpeed = 4f;
     [SerializeField] private float stoppingDistance = .1f;
 
     public float MoveSpeed
@@ -22,26 +21,33 @@ public class Unit : MonoBehaviour
         set => stoppingDistance = value;
     }
 
+    private void Awake()
+    {
+        targetPosition = transform.position;
+    }
 
     private void Update()
     {
 
-        if (Vector3.Distance(transform.position, TargetPosition) > StoppingDistance)
+        if (Vector3.Distance(transform.position, targetPosition) > StoppingDistance)
         {
-            Vector3 moveDirection = (TargetPosition - transform.position).normalized;
+            Vector3 moveDirection = (targetPosition - transform.position).normalized;
             transform.position += MoveSpeed * Time.deltaTime * moveDirection;
-        }
+            unitAnimator.SetBool("IsWalking", true);
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            Move(TargetPosition);
+            transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed) ;
         }
+        else
+        {
+            unitAnimator.SetBool("IsWalking", false);
+        }
+        
     }
 
-    private void Move(Vector3 targetPosition)
+    public void Move(Vector3 targetPosition)
     {
         Debug.Log("Going to " + targetPosition.ToString());
-        this.TargetPosition = MouseWorld.GetPosition();
+        this.targetPosition = MouseWorld.GetPosition();
     }
 
 }
