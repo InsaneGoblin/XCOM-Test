@@ -46,7 +46,7 @@ public class Unit : MonoBehaviour
 
     public void Move(Vector3 targetPosition)
     {
-        Debug.Log("Going to " + targetPosition.ToString());
+        //Debug.Log("Going to " + targetPosition.ToString());
         this.targetPosition = MouseWorld.GetPosition();
     }
 
