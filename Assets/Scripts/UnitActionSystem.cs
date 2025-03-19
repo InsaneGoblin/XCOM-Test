@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class UnitActionSystem : MonoBehaviour
 {
-    public static UnitActionSystem Instance { get; set; }
+    public static UnitActionSystem Instance { get; private set; }
     public event EventHandler OnSelectedUnitChanged;  
     
     [SerializeField] private Unit selectedUnit;

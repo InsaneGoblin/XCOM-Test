@@ -26,6 +26,11 @@ public class Unit : MonoBehaviour
         targetPosition = transform.position;
     }
 
+    private void Start()
+    {
+        GridPosition gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+        LevelGrid.Instance.SetUnitAtGridPosition(gridPosition, this);
+    }
     private void Update()
     {
 
@@ -49,5 +54,6 @@ public class Unit : MonoBehaviour
         //Debug.Log("Going to " + targetPosition.ToString());
         this.targetPosition = MouseWorld.GetPosition();
     }
+    
 
 }
